@@ -1,6 +1,9 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import User from "../models/user.js";
+
+dotenv.config();
 
 export const signinCtrl = async (req, res) => {
     const { email, password } = req.body;
@@ -58,6 +61,21 @@ export const signupCtrl = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
+
+        const newUser = await User.create({
+            firstName,
+            lastName,
+            email,
+            password: hashedPassword,
+        });
+
+        const token = jwt.sign(
+            { email: newUser.email, id: newUser._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        res.status(200).json({ result: newUser, token });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: error.message });
