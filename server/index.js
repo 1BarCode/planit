@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 import authRoute from "./routes/auth.js";
+import eventRoute from "./routes/event.js";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 // routes
 app.use("/auth", authRoute);
+app.use("/event", eventRoute);
 
 app.use("/", (req, res) => {
     res.send("Hello World. You've reached the PlanIt API.");
