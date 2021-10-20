@@ -1,9 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-import User from "../models/user.js";
-
-dotenv.config();
+import User from "../models/User.js";
 
 export const signinCtrl = async (req, res) => {
     const { email, password } = req.body;
