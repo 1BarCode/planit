@@ -1,10 +1,11 @@
 import express from "express";
-import { signupCtrl, signinCtrl } from "../controllers/usersCtrl.js";
+import authUser from "../middlewares/authUser.js";
+import { createEvent } from "../controllers/eventCtrl.js";
 
 const router = express.Router();
 
 // Authentication
-router.post("/create");
+router.post("/create", authUser, createEvent);
 router.post("/delete");
 
 export default router;

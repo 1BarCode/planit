@@ -11,13 +11,22 @@ const authUser = (req, res, next) => {
     try {
         // determine custom or OAuth
 
-        const CustomAuth = token.lenght < 500;
+        const CustomAuth = token.length < 500;
 
         let decodedData;
         if (token && CustomAuth) {
             decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+            req.userId = decodedData?.id;
+        } else {
+            decodedData = jwt.decode(token);
+
+            req.userId = decodedData?.sub;
         }
+        next();
     } catch (error) {
         console.log(error);
     }
 };
+
+export default authUser;
