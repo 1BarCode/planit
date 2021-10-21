@@ -6,7 +6,7 @@ export const signinCtrl = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const existingUser = await User.findone({ email });
+        const existingUser = await User.findOne({ email });
 
         if (!existingUser) {
             return res.status(404).json({ message: "User doesn't exist." });
@@ -27,7 +27,10 @@ export const signinCtrl = async (req, res) => {
             { expiresIn: "1h" }
         );
 
-        res.status(200).json({ result: existingUser, token });
+        const copyExistingUser = { ...existingUser };
+        delete copyExistingUser._doc.password;
+
+        res.status(200).json({ result: copyExistingUser, token });
     } catch (error) {
         console.log(error);
 
@@ -72,7 +75,10 @@ export const signupCtrl = async (req, res) => {
             { expiresIn: "1h" }
         );
 
-        res.status(200).json({ result: newUser, token });
+        const copyNewUser = { ...newUser };
+        delete copyNewUser._doc.password;
+
+        res.status(200).json({ result: copyNewUser, token });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: error.message });
