@@ -1,11 +1,13 @@
 import express from "express";
 import authUser from "../middlewares/authUser.js";
-import { createEvent } from "../controllers/eventCtrl.js";
+import { createEvent, deleteEvent } from "../controllers/eventCtrl.js";
 
 const router = express.Router();
 
-// Authentication
-router.post("/create", authUser, createEvent);
-router.post("/delete");
+// router.get("/:id", authUser, );
+
+router.post("/", authUser, createEvent);
+
+router.delete("/:id", authUser, deleteEvent);
 
 export default router;

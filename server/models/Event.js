@@ -22,6 +22,14 @@ const eventSchema = mongoose.Schema(
     { timestamps: true }
 );
 
+// Pre-hook function fires after doc "update" from db
+// eventSchema.pre("update", function (next) {
+//     this.model("User").update(
+//         { },
+//         {"$pull": {}}
+//     )
+// })
+
 const Event = mongoose.model("Event", eventSchema);
 
 export default Event;
